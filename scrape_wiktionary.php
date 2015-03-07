@@ -8,11 +8,11 @@
 	$nextLinkRegex = "~/w/index.php?(.+?)#mw-pages~";
 	$linkfound = true;	//used to test if a correct link was found; if not, then the search loop will end
 
-	$fname = "C:\\listOfUncountableNouns.txt";	//Name of file to save the words
+	$fname = "UncountableNouns.txt";	//Name of file to save the words
 	$fp = fopen($fname, "w");
 	
 	// do this 3 times (for now while debugging)
-	for ($i=0; $i<10 && $linkfound == true; $i++) {
+	for ($i=0; $i<20000 && $linkfound == true; $i++) {
 		//if($i >= 1) {echo "say anything <br>";}
 		// read the entire webpage and store as a string
 		$data = file_get_contents($nextURL);
@@ -36,7 +36,7 @@
 			$wordEnd = strpos ($match, "\">", $wordBegin);
 			$foundWord = substr ($match, $wordBegin, $wordEnd - $wordBegin);
 			if ($foundWord != "Category:English singularia tantum" && $foundWord != "Category:Uncountable nouns by language"){
-				$wordlist = $wordlist . $foundWord . "<br>";
+				$wordlist = $wordlist . $foundWord . "\n";
 			}
 		}
 		echo "$wordlist";
