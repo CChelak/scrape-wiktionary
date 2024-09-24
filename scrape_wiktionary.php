@@ -1,5 +1,5 @@
 <?php
-	// start with the first page of uncountable nouns
+	// manually input starting page here, e.g. start with the first page of uncountable nouns
 	$nextURL = "https://en.wiktionary.org/wiki/Category:English_uncountable_nouns";
 	
 	// regular expression for "get anything inside an HTML li tag"
@@ -11,23 +11,20 @@
 	$fname = "UncountableNouns.txt";	//Name of file to save the words
 	$fp = fopen($fname, "w");
 	
-	// do this 3 times (for now while debugging)
-	for ($i=0; $i<20000 && $linkfound == true; $i++) {
+	// loop through links or until max number of loops
+	$maxWordsPerPage = 20000;
+	for ($i=0; $i < $maxWordsPerPage && $linkfound == true; $i++) {
 		//if($i >= 1) {echo "say anything <br>";}
 		// read the entire webpage and store as a string
 		$data = file_get_contents($nextURL);
 		//if($i >= 1){echo "$data<br><br>";}
-				
-		for ($j = 0; $j<2; $j++){
-		  $foundamp = strpos($data, "amp;");
-			if ($foundamp !== false){
-			$data = str_replace("amp;", "", $data);
-		  }
-		}		
+
+		$data = str_replace("amp;", "", $data);
+	
 		
 		// find all the <li> content
 		preg_match_all($regex,$data,$matches);
-		
+	
 		// print each <li> entry to the page
 		$wordlist = "";	//holds the large list of words found on the page
 		
@@ -75,5 +72,6 @@
 			}
 		}
 	}
-		fclose($fp);
+
+	fclose($fp);
 ?>
